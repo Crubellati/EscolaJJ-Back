@@ -1,0 +1,15 @@
+Códigos de retorno de ResponseEntity:
+
+1XX: Informativo – a solicitação foi aceita ou o processo continua em andamento;
+
+2XX: Confirmação – a ação foi concluída ou entendida;
+ - retorno 200 -> específico para OK com corpo
+ - retorno 201 -> específico para dados cadastrados no banco com sucesso;
+ - retorno 204 -> específico para OK sem corpo
+
+3XX: Redirecionamento – indica que algo mais precisa ser feito ou precisou ser feito para completar a solicitação;
+
+4XX: Erro do cliente – indica que a solicitação não pode ser concluída ou contém a sintaxe incorreta;
+ - retorno 404 -> específico para OK sem corpo
+
+5XX: Erro no servidor – o servidor falhou ao concluir a solicitação.

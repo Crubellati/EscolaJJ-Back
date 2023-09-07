@@ -1,0 +1,147 @@
+create table escola
+(
+    escolaCodigo      int(10) auto_increment
+        primary key,
+    escolaNome        varchar(99) not null,
+    escolaEndereco    varchar(99) null,
+    escolaTelefone    varchar(45) null,
+    escolaBairro      varchar(45) null,
+    escolaCidade      varchar(45) null,
+    escolaUF          varchar(2)  null,
+    escolaResponsavel int         null,
+    escolaDataInicio  date        null
+);
+
+create table aluno
+(
+    alunoCodigo             int(10) auto_increment
+        primary key,
+    foto                    longblob             null,
+    alunoStatus             varchar(10)          null,
+    alunoNome               varchar(45)          not null,
+    alunoCelular1           varchar(20)          null,
+    alunoCelular2           varchar(20)          null,
+    alunoEndereco           varchar(99)          null,
+    alunoComplemento        varchar(300)         null,
+    alunoBairro             varchar(45)          null,
+    alunoCidade             varchar(45)          null,
+    alunoUF                 varchar(45)          null,
+    alunoCPF                varchar(45)          null,
+    alunoRG                 varchar(45)          null,
+    alunoDataNasc           date                 null,
+    alunoDataCadastro       date                 null,
+    alunoNomeResponsavel    varchar(300)         null,
+    alunoCelularResponsavel varchar(20)          null,
+    alunoEscola             int                  null,
+    alunoExcluido           tinyint(1) default 0 null,
+    constraint aluno_escola_escolaCodigo_fk
+        foreign key (alunoEscola) references escola (escolaCodigo)
+);
+
+create table despesa
+(
+    codigo                 int auto_increment
+        primary key,
+    descricao              varchar(300) null,
+    data_vencimento        date         null,
+    data_pagamento         date         null,
+    qtd_parcelas_total     int          null,
+    qtd_parcelas_restantes int          null,
+    valor                  double       null,
+    empresa                int          null,
+    pago                   tinyint(1)   null,
+    constraint despesa_escola_escolaCodigo_fk
+        foreign key (empresa) references escola (escolaCodigo)
+);
+
+create index escola_profissional_proCodigo_fk
+    on escola (escolaResponsavel);
+
+create table frequencia
+(
+    frequenciaCodigo    int auto_increment
+        primary key,
+    frequenciaData      date                 not null,
+    frequenciaHora      varchar(10)          null,
+    frequenciaAluno     int                  not null,
+    frequenciaPresente  tinyint(1) default 0 null,
+    frequenciaLatitude  varchar(100)         null,
+    frequenciaLongetude varchar(100)         null,
+    frequenciaEscola    int                  null,
+    constraint frequencia_aluno_alunoCodigo_fk
+        foreign key (frequenciaAluno) references aluno (alunoCodigo),
+    constraint frequencia_escola_escolaCodigo_fk
+        foreign key (frequenciaEscola) references escola (escolaCodigo)
+);
+
+create table matricula
+(
+    matriculaCodigo           int auto_increment
+        primary key,
+    matriculaAluno            int          not null,
+    matriculaValorMensalidade double       null,
+    matriculaDiaVencimento    int          null,
+    matriculaDataInicio       date         null,
+    matriculaDataFinal        date         null,
+    matriculaObservacao       varchar(100) null,
+    matriculaEscola           int          null,
+    constraint matricula_aluno_alunoCodigo_fk
+        foreign key (matriculaAluno) references aluno (alunoCodigo),
+    constraint matricula_escola_escolaCodigo_fk
+        foreign key (matriculaEscola) references escola (escolaCodigo)
+);
+
+create table profissional
+(
+    proCodigo          int(10) auto_increment
+        primary key,
+    proNome            varchar(45)          not null,
+    proCelular1        varchar(20)          null,
+    proCelular2        varchar(20)          null,
+    proEndereco        varchar(99)          null,
+    proCidade          varchar(45)          null,
+    proBairro          varchar(45)          null,
+    proUF              varchar(45)          null,
+    proCPF             varchar(45)          null,
+    proRG              varchar(45)          null,
+    proDataNasc        date                 null,
+    proEmail           varchar(90)          null,
+    proDataCadastro    date                 null,
+    proStatus          varchar(10)          null,
+    proComplemento     varchar(100)         null,
+    proSuperUsuario    tinyint(1) default 0 null,
+    profissionalEscola int                  null,
+    login              varchar(100)         null,
+    senha              varchar(255)         null,
+    constraint profissional_escola_escolaCodigo_fk
+        foreign key (profissionalEscola) references escola (escolaCodigo)
+);
+
+
+
+create table mensalidade
+(
+    mensalidadeCodigo       int auto_increment
+        primary key,
+    mensalidadeMes          int        null,
+    mensalidadeAno          int        null,
+    mensalidadePago         tinyint(1) null,
+    mensalidadeDataPagto    date       null,
+    mensalidadeProfissional int        null comment 'profissional que recebeu a mensalidade
+',
+    mensalidadeEscola       int        null,
+    mensalidadeAluno        int        null,
+    constraint mensalidade_aluno_fk
+        foreign key (mensalidadeAluno) references aluno (alunoCodigo),
+    constraint mensalidade_escola_fk
+        foreign key (mensalidadeEscola) references escola (escolaCodigo),
+    constraint mensalidade_profissional_fk
+        foreign key (mensalidadeProfissional) references profissional (proCodigo)
+);
+
+create index mensalidade_escola_escolaCodigo_fk
+    on mensalidade (mensalidadeEscola);
+
+create index mensalidade_profissional_proCodigo_fk
+    on mensalidade (mensalidadeProfissional);
+
