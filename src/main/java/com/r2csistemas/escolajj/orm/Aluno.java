@@ -111,8 +111,12 @@ public class Aluno {
         this.alunoCelular1 = dto.celular();
         this.alunoCelular2 = dto.celular2();
         this.alunoStatus = dto.status();
-        this.alunoDataCadastro = Utils.convertLocalDateToDate(dto.data_cadastro());
-        this.alunoDataNasc = Utils.convertLocalDateToDate(dto.data_nasc());
+        this.alunoDataCadastro = dto.data_cadastro();
+        this.alunoDataNasc = dto.data_nasc();
+        this.alunoNomeResponsavel = dto.nomeResponsavel();
+        this.alunoCelularResponsavel = dto.celResponsavel();
+        this.alunoEscola = new Escola(1);
+        this.alunoExcluido = false;
 
     }
 

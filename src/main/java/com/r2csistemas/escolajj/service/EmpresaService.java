@@ -21,26 +21,26 @@ public class EmpresaService {
     private ProfissionalRepository profissionalRepository;
 
     public void atualizarDados(Escola escola, EmpresaDto dados) {
-        if (dados.nome() != null) escola.setEscolaNome(dados.nome());
-        if (dados.endereco() != null) escola.setEscolaEndereco(dados.endereco());
-        if (dados.telefone() != null) escola.setEscolaTelefone(dados.telefone());
-        if (dados.bairro() != null) escola.setEscolaBairro(dados.bairro());
-        if (dados.cidade() != null) escola.setEscolaCidade(dados.cidade());
-        if (dados.uf() != null) escola.setEscolaUF(dados.uf());
+         escola.setEscolaNome(dados.nome());
+       escola.setEscolaEndereco(dados.endereco());
+      escola.setEscolaTelefone(dados.telefone());
+      escola.setEscolaBairro(dados.bairro());
+       escola.setEscolaCidade(dados.cidade());
+      escola.setEscolaUF(dados.uf());
         verifyChangeResponsavel(escola, dados);
-        if (dados.data_inicio() != null) escola.setEscolaDataInicio(dados.data_inicio());
+      escola.setEscolaDataInicio(dados.data_inicio());
 
         //nao precisa repositorio.save pois estando dentro de uma anotação transaction a JPA detecta
         //alteração e ja commita as alterações no banco automaticamente
         //https://cursos.alura.com.br/course/spring-boot-3-desenvolva-api-rest-java/task/115969 - minuto 9
     }
 
-    private void verifyChangeResponsavel(Escola escola, EmpresaDto dados) {
-        if (dados.responsavel() != null) {
-//            Optional<Profissional> optionalProfissional = profissionalRepository.findByProCodigo(Integer.parseInt(dados.responsavel()));
-//            if (optionalProfissional.isPresent()) {
-//                escola.setEscolaResponsavel(optionalProfissional.get());
-//            }
+    private void verifyChangeResponsavel(Escola escola, EmpresaDto dto) {
+        if (dto.responsavel() != null) {
+            Optional<Profissional> optionalProfissional = profissionalRepository.findByProCodigo(dto.responsavel().codigo());
+            if (optionalProfissional.isPresent()) {
+                escola.setEscolaResponsavel(optionalProfissional.get());
+            }
         }
     }
 }

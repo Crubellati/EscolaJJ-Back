@@ -32,18 +32,20 @@ public class AlunoService {
     }
 
     public void atualizarDados(Aluno aluno, AlunoDtoForm dados) {
-        if (dados.nome() != null) aluno.setAlunoNome(dados.nome());
-        if (dados.celular() != null) aluno.setAlunoCelular1(dados.celular());
-        if (dados.celular2() != null) aluno.setAlunoCelular2(dados.celular2());
-        if (dados.rg() != null) aluno.setAlunoRG(dados.rg());
-        if (dados.cpf() != null) aluno.setAlunoCPF(dados.cpf());
-        if (dados.endereco() != null) aluno.setAlunoEndereco(dados.endereco());
-        if (dados.bairro() != null) aluno.setAlunoBairro(dados.bairro());
-        if (dados.complemento() != null) aluno.setAlunoComplemento(dados.complemento());
-        if (dados.cidade() != null) aluno.setAlunoCidade(dados.cidade());
-        if (dados.uf() != null) aluno.setAlunoUF(dados.uf());
-        if (dados.data_cadastro() != null) aluno.setAlunoDataCadastro(Utils.convertLocalDateToDate(dados.data_cadastro()));
-        if (dados.data_nasc() != null) aluno.setAlunoDataNasc(Utils.convertLocalDateToDate(dados.data_nasc()));
+        aluno.setAlunoNome(dados.nome());
+        aluno.setAlunoCelular1(dados.celular());
+        aluno.setAlunoCelular2(dados.celular2());
+        aluno.setAlunoRG(dados.rg());
+        aluno.setAlunoCPF(dados.cpf());
+        aluno.setAlunoEndereco(dados.endereco());
+        aluno.setAlunoBairro(dados.bairro());
+        aluno.setAlunoComplemento(dados.complemento());
+        aluno.setAlunoCidade(dados.cidade());
+        aluno.setAlunoUF(dados.uf());
+        aluno.setAlunoDataCadastro(dados.data_cadastro());
+        aluno.setAlunoDataNasc(dados.data_nasc());
+        aluno.setAlunoNomeResponsavel(dados.nomeResponsavel());
+        aluno.setAlunoCelularResponsavel(dados.celResponsavel());
 
         //nao precisa repositorio.save pois estando dentro de uma anotação transaction a JPA detecta
         //alteração e ja commita as alterações no banco automaticamente

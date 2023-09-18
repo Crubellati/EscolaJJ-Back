@@ -1,6 +1,5 @@
 package com.r2csistemas.escolajj.controller;
 
-import com.r2csistemas.escolajj.dto.AlunoDtoDetalhes;
 import com.r2csistemas.escolajj.dto.AlunoDtoForm;
 import com.r2csistemas.escolajj.orm.Aluno;
 import com.r2csistemas.escolajj.repository.AlunoRepository;
@@ -37,26 +36,26 @@ public class AlunoController {
 
     @GetMapping("/paginacao")
     public ResponseEntity page(Pageable pageable) {
-        var page = alunoRepository.findAll(pageable).map(AlunoDtoDetalhes::new);
+        var page = alunoRepository.findAll(pageable).map(AlunoDtoForm::new);
         return ResponseEntity.ok(page);
     }
 
     @GetMapping("/listAll")
     public ResponseEntity listAll() {
-        List<AlunoDtoDetalhes> collect = alunoRepository
+        List<AlunoDtoForm> collect = alunoRepository
                 .findAll()
                 .stream()
-                .map(AlunoDtoDetalhes::new)
+                .map(AlunoDtoForm::new)
                 .collect(Collectors.toList());
         return ResponseEntity.ok(collect); //retorno 200 -> específico para OK com corpo
     }
 
     @GetMapping("/buscar")
     public ResponseEntity buscarPorNome(@RequestParam(required = false) String q) {
-        List<AlunoDtoDetalhes> collect = alunoRepository
+        List<AlunoDtoForm> collect = alunoRepository
                 .findByAlunoNomeContainsOrderByAlunoCodigoDesc(nullToEmpty(q))
                 .stream()
-                .map(AlunoDtoDetalhes::new)
+                .map(AlunoDtoForm::new)
                 .collect(Collectors.toList());
         return ResponseEntity.ok(collect); //retorno 200 -> específico para OK com corpo
     }
@@ -70,7 +69,7 @@ public class AlunoController {
 
         var uri = uriBuilder.path("/aluno/{id}").buildAndExpand(novoAlunoSalvo.getAlunoCodigo()).toUri();
         return ResponseEntity.created(uri)
-                .body(new AlunoDtoDetalhes(novoAlunoSalvo));
+                .body(new AlunoDtoForm(novoAlunoSalvo));
     }
 
     @PutMapping
@@ -95,7 +94,7 @@ public class AlunoController {
     public ResponseEntity detalhar(@PathVariable Integer id) {
         Optional<Aluno> alunoOptional = alunoRepository.findById(id);
         if (alunoOptional.isPresent()) {
-            return ResponseEntity.ok(new AlunoDtoDetalhes(alunoOptional.get()));
+            return ResponseEntity.ok(new AlunoDtoForm(alunoOptional.get()));
         }
         return ResponseEntity.notFound().build();
     }

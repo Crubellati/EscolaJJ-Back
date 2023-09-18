@@ -54,6 +54,10 @@ public class Escola {
     public Escola() {
     }
 
+    public Escola(Integer escolaCodigo) {
+        this.escolaCodigo = escolaCodigo;
+    }
+
     public Escola(EmpresaDto dto) {
         this.escolaNome = dto.nome();
         this.escolaEndereco = dto.endereco();
@@ -61,8 +65,8 @@ public class Escola {
         this.escolaBairro = dto.bairro();
         this.escolaCidade = dto.cidade();
         this.escolaUF = dto.uf();
-        this.escolaResponsavel= new Profissional(dto.responsavel().codigo());
-        this.escolaDataInicio= dto.data_inicio();
+        this.escolaResponsavel = new Profissional(dto.responsavel().codigo());
+        this.escolaDataInicio = dto.data_inicio();
     }
 
     public Date getEscolaDataInicio() {
